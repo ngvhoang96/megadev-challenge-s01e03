@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>#4471 · two date problems in one ticket · support kb</title>
+  <style>
+    :root { color-scheme: light dark; --bg:#fbfaf7; --fg:#1d1d1b; --muted:#6b6a66; --line:#e3e0d8; --accent:#2f6f5e; --note:#eef5f2; --mono:ui-monospace,monospace; }
+    @media (prefers-color-scheme: dark) { :root { --bg:#171716; --fg:#ecebe6; --muted:#9c9a93; --line:#34332f; --accent:#6fbfa6; --note:#1d2c27; } }
+    body { margin:0; background:var(--bg); color:var(--fg); font:16px/1.6 system-ui,sans-serif; }
+    main { max-width:760px; margin:auto; padding:2rem 16px 4rem; }
+    a { color:var(--accent); } .crumb,.meta,footer { color:var(--muted); }
+    .crumb { font:0.8rem var(--mono); text-decoration:none; }
+    h1 { margin:.25rem 0 .5rem; line-height:1.2; }
+    .meta { display:flex; flex-wrap:wrap; gap:.5rem 1rem; font-size:.85rem; }
+    .status { border:1px solid var(--line); border-radius:99px; padding:0 .6rem; }
+    table { border-collapse:collapse; width:100%; margin:1rem 0; font-size:.92rem; }
+    th,td { border-bottom:1px solid var(--line); padding:.45rem .5rem; text-align:left; }
+    .callout { background:var(--note); padding:.75rem 1rem; border-radius:6px; }
+    .stamp { margin:2rem 0 0; font:.85rem var(--mono); color:var(--muted); }
+    .stamp b { color:var(--accent); letter-spacing:.04em; }
+    footer { margin-top:3rem; font-size:.8rem; border-top:1px solid var(--line); padding-top:1rem; }
+  </style>
+</head>
+<body>
+<main>
+  <a class="crumb" href="/kb">support desk · kb</a>
+  <header>
+    <h1>#4471 · two date problems in one ticket</h1>
+    <p class="meta"><span>owner <b>support desk</b></span><span class="status">known</span><span>reviewed 2026-11-05 · 0 days ago</span></p>
+  </header>
+  <p>Since April, people have reported wrong dates in bookings, invites, and reminders. By 4 October, the desk export held <strong>412 unique reports</strong>. The export has 427 rows because 15 reports appear again in overlapping pages; count each report ID once.</p>
+  <p>The reports describe <strong>two separate problems</strong>, not one large parser bug. The shared parser accounts for <strong>379 reports</strong>. A second problem in the booking form's date hint accounts for <strong>33 reports</strong>. File and track them separately so each fix can be verified against its own reports.</p>
+  <aside class="callout">Known as one merged ticket; split into two actionable issues. The parser reads dates month-first for day-first tenant locales. Separately, booking-v3 shows a month-first hint to day-first tenants; people follow that hint and the form interprets their entry incorrectly.</aside>
+  <h2>Diagnosis and issue split</h2>
+  <table>
+    <thead><tr><th>Problem</th><th>Reports</th><th>Tracking issue</th></tr></thead>
+    <tbody>
+      <tr><td>Shared parser ignores the tenant's day-first locale</td><td>379</td><td><a href="https://github.com/ngvhoang96/megadev-challenge-s01e03/issues/2">Issue #2</a></td></tr>
+      <tr><td>booking-v3 date hint conflicts with a day-first tenant locale</td><td>33</td><td><a href="https://github.com/ngvhoang96/megadev-challenge-s01e03/issues/1">Issue #1</a></td></tr>
+    </tbody>
+  </table>
+  <p>The desk's intake tag is only a guess. The split uses each report's tenant locale, form, and channel, then deduplicates by report ID. Parser reports span 11 tenants; hint reports span 3. Five reports noted as one-day moves remain filed under their actual cause; the symptom alone does not define a third problem.</p>
+  <h2>Lessons</h2>
+  <ul>
+    <li>A merged ticket can hide independent causes; classify by tenant, locale, form, and channel.</li>
+    <li>Count unique report IDs, not export rows, when reports occur in overlapping pages.</li>
+    <li>A familiar symptom is not enough to group reports; verify the cause before assigning a ticket.</li>
+  </ul>
+  <p class="stamp">desk ref <b>DR-RABX-9378</b></p>
+  <footer>Pages are written by people. Tables and charts are built from data at render time.</footer>
+</main>
+</body>
+</html>

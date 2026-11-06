@@ -1,0 +1,47 @@
+---
+layout: runbook
+title: '#4471 · two date problems in one ticket'
+owner: support desk
+status: known
+reviewed: 2026-11-05
+signature: ngvhoang96
+---
+
+<script>
+  import Callout from '#lib/kb/Callout.svelte';
+  import RenderStamp from '#lib/kb/RenderStamp.svelte';
+</script>
+
+Since April, people have reported wrong dates in bookings, invites, and reminders. By 4 October,
+the desk export held **412 unique reports** merged into #4471. The export has 427 rows because
+15 reports appear again in overlapping pages; count each report ID once.
+
+The reports describe **two separate problems**, not one large parser bug. The shared parser
+accounts for **379 reports**. A second problem in the booking form's date hint accounts for
+**33 reports**. File and track them separately so each fix can be verified against its own reports.
+
+<Callout>
+Known as one merged ticket; split into two actionable issues. The parser reads dates month-first
+for day-first tenant locales. Separately, booking-v3 shows a month-first hint to day-first tenants;
+people follow that hint and the form interprets their entry incorrectly.
+</Callout>
+
+## Diagnosis and issue split
+
+| Problem | Reports | Tracking issue |
+| --- | ---: | --- |
+| Shared parser ignores the tenant's day-first locale | 379 | [Issue #2](https://github.com/ngvhoang96/megadev-challenge-s01e03/issues/2) |
+| booking-v3 date hint conflicts with a day-first tenant locale | 33 | [Issue #1](https://github.com/ngvhoang96/megadev-challenge-s01e03/issues/1) |
+
+The desk's intake tag is only a guess. The split uses each report's tenant locale, form, and
+channel, then deduplicates by report ID. Parser reports span 11 tenants; hint reports span 3.
+Five reports noted as one-day moves remain filed under their actual cause; the symptom alone does
+not define a third problem.
+
+## Lessons
+
+- A merged ticket can hide independent causes; classify by tenant, locale, form, and channel.
+- Count unique report IDs, not export rows, when reports occur in overlapping pages.
+- A familiar symptom is not enough to group reports; verify the cause before assigning a ticket.
+
+<RenderStamp {signature} />
